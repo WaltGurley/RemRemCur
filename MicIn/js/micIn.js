@@ -38,7 +38,7 @@ function draw() {
 
   noFill();
   beginShape();
-  strokeWeight(2)
+  strokeWeight(2);
   stroke(255, 255, 255);
   for (var i = 0; i < timeDom.length; i++) {
     var x = map(i, 0, timeDom.length, 0, width);
@@ -61,7 +61,7 @@ function linearScale() {
 }
 
 function logScale() {
-  var oldX = 0
+  var oldX = 0;
   for (var i = 0; i < freqDom.length; i++) {
     var x = map(Math.log(i+1) , 0, Math.log(freqDom.length), 0, width);
     var h = map(freqDom[i], 0, 255, height, 0) - height;
@@ -78,7 +78,7 @@ function logScale() {
 
 //Buttons to toggle frequency scale
 $(".scale").on("click", function() {
-  linear = this.innerHTML === "Linear Frequency") {
+  if (this.innerHTML === "Linear Frequency") {
     linear = true;
   } else if (this.innerHTML === "Log Frequency") {
     linear = false;
