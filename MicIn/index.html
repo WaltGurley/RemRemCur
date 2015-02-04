@@ -9,6 +9,7 @@
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://weloveiconfonts.com/api/?family=iconicstroke">
     <link rel="stylesheet" href="css/main.css">
   </head>
 
@@ -37,13 +38,55 @@
 
     <div class="container-fluid start-of-page">
       <div class="row">
-        <div class="col-lg-12" id="vis-container">
-
+        <div class="col-lg-2 col-md-2">
+          <div class="row">
+            <div class="col-lg-12 text-center">
+              <br>
+              <button type="button" class="btn btn-lg btn-default wide-btn record">
+                <span class="iconicstroke-mic"></span> Rec.
+              </button><br><br>
+              <div class="btn-group-vertical btn-group-lg wide-btn">
+                <button type="button" class="btn btn-lg btn-default main-btns play-pause">
+                  <span class=iconicstroke-play></span> Play
+                </button>
+                <button type="button" class="btn btn-lg btn-default main-btns stop">
+                  <span class=iconicstroke-stop></span> Stop
+                </button>
+              </div><br><br>
+              <h4>Playback Speed: <strong class="rate-value">1.00</strong></h4>
+              <div class="btn-group btn-group-lg">
+                <button type="button" class="btn btn-lg btn-default rate" value="down">
+                  <span class=iconicstroke-minus></span>
+                </button>
+                <button type="button" class="btn btn-lg btn-default rate" value="up">
+                  <span class=iconicstroke-plus></span>
+                </button>
+              </div><br><br>
+              <h4>Reverb: <strong class="rev-value">0</strong></h4>
+              <div class="btn-group btn-group-lg">
+                <button type="button" class="btn btn-lg btn-default rev" value="down">
+                  <span class=iconicstroke-minus></span>
+                </button>
+                <button type="button" class="btn btn-lg btn-default rev" value="up">
+                  <span class=iconicstroke-plus></span>
+                </button>
+              </div><br><br>
+              <h4>Reverse Playback:</h4>
+              <button type="button" class="btn btn-lg btn-default reverse">
+                <span class="iconicstroke-undo"></span>
+              </button><br><br>
+              <h4>Download Recording:</h4>
+              <button type="button" class="btn btn-lg btn-default save">
+                <span class="iconicstroke-download"></span>
+              </button>
+          </div>
         </div>
-        <div class="col-lg-12 text-center">
+        </div>
+        <div class="col-lg-10 col-md-10" id="vis-container"></div>
+        <div class="col-lg-offset-9 col-lg-3">
           <div class="btn-group btn-group-md">
-            <button type="button" class="btn btn-primary scale active">Linear Frequency</button>
-            <button type="button" class="btn btn-primary scale">Log Frequency</button>
+            <button type="button" class="btn btn-default scale active">Linear Frequency</button>
+            <button type="button" class="btn btn-default scale">Log Frequency</button>
           </div>
         </div>
       </div>

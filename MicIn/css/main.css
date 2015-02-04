@@ -1,3 +1,36 @@
+/* iconicstroke */
+[class*="iconicstroke-"]:before {
+  font-family: 'IconicStroke', sans-serif;
+}
+
+body {
+  background-color: #222;
+}
+
+canvas{
+  border-left-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-width: 2px;
+  border-color: #f8f8f8;
+}
+
 .start-of-page{
   margin-top: 50px;
+}
+
+.start-of-page h4 {
+  color: #fff;
+}
+
+.wide-btn {
+  width: 125px;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.main-btns:focus {
+  background-color: #fff;
 }
