@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,12 +25,13 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <h4 class="navbar-text">Walt Gurley</h4>
+            <h4 class="navbar-text">SoundSee</h4>
           </div>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li><a href="../EllMus">Ell Music</a></li>
-              <li class="active"><a href="./">Mic In</a></li>
+              <li class="nav-list active"><a href="#app-container">See sound!</a></li>
+              <li class="nav-list"><a href="#sound-info">What am I seeing?</a></li>
+              <li class="nav-list"><a href="../EllMus">More fun with sound.</a></li>
             </ul>
           </div>
         </div>
@@ -37,56 +39,209 @@
     </nav>
 
     <div class="container-fluid start-of-page">
-      <div class="row">
+      <div id="app-container" class="row">
         <div class="col-lg-2 col-md-2">
           <div class="row">
             <div class="col-lg-12 text-center">
-              <br>
-              <button type="button" class="btn btn-lg btn-default wide-btn record">
-                <span class="iconicstroke-mic"></span> Rec.
-              </button><br><br>
-              <div class="btn-group-vertical btn-group-lg wide-btn">
-                <button type="button" class="btn btn-lg btn-default main-btns play-pause">
+              <div class="row">
+                <button type="button" class="btn btn-lg btn-default wide-btn record">
+                  <span class="iconicstroke-mic"></span> Rec.
+                </button>
+              </div>
+              <div class="row btn-col">
+                <button type="button" class="btn btn-lg btn-default wide-btn main-btns play-pause">
                   <span class=iconicstroke-play></span> Play
                 </button>
-                <button type="button" class="btn btn-lg btn-default main-btns stop">
+              </div>
+              <div class="row">
+                <button type="button" class="btn btn-lg btn-default wide-btn main-btns stop">
                   <span class=iconicstroke-stop></span> Stop
                 </button>
-              </div><br><br>
-              <h4>Playback Speed: <strong class="rate-value">1.00</strong></h4>
-              <div class="btn-group btn-group-lg">
+              </div>
+              <div class="row btn-col">
+                <h4 class="app-text">Playback Speed: <strong class="rate-value">1.00</strong></h4>
                 <button type="button" class="btn btn-lg btn-default rate" value="down">
                   <span class=iconicstroke-minus></span>
                 </button>
                 <button type="button" class="btn btn-lg btn-default rate" value="up">
                   <span class=iconicstroke-plus></span>
                 </button>
-              </div><br><br>
-              <h4>Reverb: <strong class="rev-value">0</strong></h4>
-              <div class="btn-group btn-group-lg">
+              </div>
+              <div class="row btn-col">
+                <h4 class="app-text">Reverb: <strong class="rev-value">0</strong></h4>
                 <button type="button" class="btn btn-lg btn-default rev" value="down">
                   <span class=iconicstroke-minus></span>
                 </button>
                 <button type="button" class="btn btn-lg btn-default rev" value="up">
                   <span class=iconicstroke-plus></span>
                 </button>
-              </div><br><br>
-              <h4>Reverse Playback:</h4>
-              <button type="button" class="btn btn-lg btn-default reverse">
-                <span class="iconicstroke-undo"></span>
-              </button><br><br>
-              <h4>Download Recording:</h4>
-              <button type="button" class="btn btn-lg btn-default save">
-                <span class="iconicstroke-download"></span>
-              </button>
+              </div>
+              <div class="row btn-col">
+                <h4 class="app-text">Reverse Playback:</h4>
+                <button type="button" class="btn btn-lg btn-default reverse">
+                  <span class="iconicstroke-undo"></span>
+                </button>
+              </div>
+              <div class="row btn-col">
+                <h4 class="app-text">Download Recording:</h4>
+                <button type="button" class="btn btn-lg btn-default save">
+                  <span class="iconicstroke-download"></span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-        </div>
         <div class="col-lg-10 col-md-10" id="vis-container"></div>
-        <div class="col-lg-offset-9 col-lg-3">
-          <div class="btn-group btn-group-md">
-            <button type="button" class="btn btn-default scale active">Linear Frequency</button>
-            <button type="button" class="btn btn-default scale">Log Frequency</button>
+        <div class="col-lg-10 col-lg-offset-2">
+          <div class="row">
+            <div class="col-lg-2 center-with-button">
+              <h4 class="app-text pull-right header-center">Play tone (in Hz):</h4>
+            </div>
+            <div class="col-lg-3">
+              <button type="button" class="btn btn-default btn-lg tone">440</button>
+              <button type="button" class="btn btn-default btn-lg tone">880</button>
+              <button type="button" class="btn btn-default btn-lg tone">1320</button>
+            </div>
+            <div class="col-lg-3 center-with-button">
+              <h4 class="app-text pull-right header-center">Change frequency graph scale:</h4>
+            </div>
+            <div class="col-lg-4">
+              <button type="button" class="btn btn-lg btn-default scale active">Linear Scale</button>
+              <button type="button" class="btn btn-lg btn-default scale">Log Scale</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="sound-info" class="row">
+        <div class="col-lg-12">
+          <div class="row sound-info-title">
+            <div class="col-lg-12">
+              <h2>What am I seeing?</h2>
+            </div>
+            <div class="col-lg-10">
+              <p class="text-justify big-p">
+                You are observing two different graphs of sound in this visualization.
+                The middle white line is the waveform. The colored bars coming
+                from the bottom show the frequency spectrum.
+              </p>
+            </div>
+            <div class="col-lg-2">
+              <!-- Control -->
+              <a class="custom-carousel-control pull-right" href="#vis-info-slides" role="button" data-slide="next">
+                More Info <span class="iconicstroke-arrow-right"></span>
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div id="vis-info-slides" class="carousel slide" data-interval="false">
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                  <div class="item active">
+                    <div class="row">
+                      <div class="col-lg-12 text-center">
+                        <h3>The Waveform</h3>
+                      </div>
+                      <div class="col-lg-4">
+                        <img class="img-responsive center-block" src="particleSound.png" alt="particles and waves" />
+                        <p class="text-justify big-p img-caption">
+                          As a sound wave travels through the air particles are compressed
+                          and stretched apart. A sound at one specific frequency produces
+                          a simple soundwave with a constant wavelength.
+                        </p>
+                      </div>
+                      <div class="col-lg-4">
+                        <p class="text-justify big-p">
+                          The white line jumping up and down in the middle of the frame is the
+                          shape of all the sounds hitting the microphone on your computer over
+                          a very short timeframe. Sound travels through air like a wave as
+                          particles are compressed together and then stretched apart. By
+                          measuring how these particles change we can represent sound as a
+                          series of waves called a waveform.
+                        </p>
+                        <p class="text-justify big-p">
+                          The shape of a sound wave is defined by its wavelength, or the
+                          distance between two successive peaks or troughs, and its amplitude,
+                          the distance between the middle point of the wave and a peak or
+                          trough. The amplitude of a sound wave is proportionate to the
+                          volume of the sound&mdash; the greater the amplitude, the louder the
+                          sound. The wavelength of a sound wave traveling through
+                          air is proportionate to the pitch of the sound we hear,
+                          or the frequency at which the wave vibrates. A wave with
+                          a shorter wavelength will have a higher frequency and therefore
+                          a higher pitch, while a wave with a longer wavelength will have a lower
+                          pitch.
+                        </p>
+                        <p class="text-justify big-p">
+                          The waveform of a sound that vibrates at one frequency looks like a
+                          simple sine wave. This wave has a constant wavelength (Play the specific
+                          frequency tones to observe what the waveform of a constant frequency
+                          looks and sounds like). However, when many sounds are vibrating at
+                          different frequencies a waveform can look very bumpy and irregular.
+                          This is because this waveform is composed of all the individual sound
+                          waveforms added together.
+                        </p>
+                      </div>
+                      <div class="col-lg-4">
+                        <img class="img-responsive center-block" src="complexWaveform.png" alt="complex waveform" />
+                        <p class="text-justify big-p img-caption">
+                          A complex waveform is made up of simple waveforms vibrating
+                          at different frequencies and amplitudes.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <h3>Frequency Spectrum</h3>
+                      </div>
+                      <div class="col-lg-4">
+                        <p class="text-justify big-p">
+                          The bars coming up from the bottom of the frame
+                          represent the frequencies of all the sounds that compose
+                          the current waveform. The values increase from left to
+                          right. That is, values at the left-hand side of the graph
+                          are low frequency sounds (low pitch) while values at the
+                          right-hand side of the graph are high frequency sounds
+                          (high pitch).
+                        </p>
+                        <p class="text-justify big-p">
+                          To observe the frequency of the sounds that make up our
+                          waveform we analyze the frequency spectrum. A frequency
+                          spectrum graph shows the volume of a range of
+                          frequencies&mdash; low to high frequencies from left to
+                          right. Each bar in the graph represents a unique frequency,
+                          or group of frequencies, and the height of that bar
+                          indicates the current volume of that frequency.
+                        </p>
+                        <p class="text-justify big-p">
+                          Sound frequency is measured as the number of times a
+                          sound wave cycles from peak to peak, or trough to trough,
+                          over a given time. Typically sound is measured in Hertz
+                          (Hz), the number of cycles per second. A sound at 200 Hz
+                          vibrates much slower than a sound at 3,000 Hz. The frequency
+                          of a sound wave gives the sound its pitch. Lower frequency
+                          sounds have a low pitch while high frequency sounds have
+                          a high pitch. Humans can hear sounds in the range of
+                          approximately 20 Hz to 20,000 Hz. You can play the specific
+                          frequency tones to hear and see different frequency
+                          sounds.
+                        </p>
+                      </div>
+                      <div class="col-lg-8">
+                        <img class="img-responsive" src="freqSpec.png" alt="particles and waves" />
+                        <p class="text-center big-p img-caption">
+                          A frequency spectrum graph shows the specific frequencies
+                          that make up a waveform.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,23 +1,19 @@
 //Global vars
 var mic, rec, soundFile,
-  rev = 0, rate = 1,
+  rev = 0, rate = 1, osc = [],
   recording = false,
   reversePlay = false,
   linear = true;
 
 var trackDuration, trackStartTime, ellapsedTrackTime = 0;
 
-function preload() {
-  //exPoem = loadSound("MicahGravesBaleenWhales.mp3");
-}
-
 function windowResized() {
-  resizeCanvas(getElement('vis-container').width - 30, windowHeight - 100);
+  resizeCanvas(getElement('vis-container').width - 30, windowHeight - 120);
 }
 
 function setup() {
   var container = getElement('vis-container'),
-  canvas = createCanvas(container.width - 30, windowHeight - 100);
+  canvas = createCanvas(container.width - 30, windowHeight - 120);
 
   canvas.parent('vis-container');
   background(0, 0, 0);
@@ -27,31 +23,31 @@ function setup() {
   rec = new p5.SoundRecorder();
   soundFile = new p5.SoundFile();
 
-  //Set initial rate to 1.0, normal speed
+  //Set initial rate to 1.0, normal speed, and volume
   soundFile.rate(rate);
+  soundFile.setVolume(1);
 
   //Reverb
   reverb = new p5.Reverb();
   reverb.amp(1);
+
   mic.amp(1);
   mic.start();
   mic.connect(fft);
-  rec.setInput(mic);
-  soundFile.setVolume(1);
+
+  for (var i = 0; i < 3; i++) {
+    osc[i] = new p5.Oscillator();
+    osc[i].freq((i + 1) * 440);
+    osc[i].amp(0.1);
+  }
+
+  colorMode(HSB, 255);
 }
 
 function draw() {
-  var vol = mic.getLevel(),
-    col = map(vol, 0, 1, 0, 255);
-  background(0, 0, col);
+  background(0, 0, 0);
 
-  //Indicate state of program (i.e., recording, playback, or live)
-  noStroke();
-  fill(255, 255, 255);
-  textSize(32);
-  showState();
-
-  //1 Hz - 22,050 Hz
+  //1 Hz - 24,000 Hz
   freqDom = fft.analyze();
   timeDom = fft.waveform();
 
@@ -68,23 +64,28 @@ function draw() {
   noFill();
   beginShape();
   strokeWeight(2);
-  stroke(255, 255, 255);
+  stroke(0, 0, 255);
   for (var i = 0; i < timeDom.length; i++) {
     var x = map(i, 0, timeDom.length, 0, width);
     var y = map(timeDom[i], 0, 255, 0, height);
     vertex(x, y);
   }
   endShape();
+
+  //Check if soundFile is complete and stop playback if so
+  if (soundFile.isPlaying() && (trackDuration - ellapsedTrackTime) - millis() / 1000 <= 0) {
+    playbackStopped();
+  }
 }
 
-//Draw frequency domain over linear scale
+//Draw half of frequency domain over linear scale
 function linearScale() {
   for (var i = 0; i <= freqDom.length / 2; i++) {
-    fill(255, 0, 0);
+    fill(map(i, 0, freqDom.length / 2, 170, 255), 255, 255);
     var x = map(i , 0, freqDom.length / 2, 20, width - 20);
     var h = map(freqDom[i], 0, 255, height, 0) - height;
     rect(x, height, width / (freqDom.length / 2), h);
-    fill(255, 255, 255);
+    fill(0, 0, 255);
     if (i % 50 === 0) {
       var freq = Math.round(i * 24000 / freqDom.length);
       textAlign(CENTER);
@@ -93,21 +94,21 @@ function linearScale() {
   }
 }
 
-//Draw frequency domain over natural log scale
+//Draw half of frequency domain over natural log scale
 function logScale() {
-  var oldX = 2;
+  var oldX = 0;
   for (var i = 0; i < freqDom.length; i++) {
-    fill(255, 0, 0);
+    fill(map(i, 0, freqDom.length / 2, 170, 255), 255, 255);
     var x = map(Math.log(i+1) , 0, Math.log(freqDom.length), 0, width);
     var h = map(freqDom[i], 0, 255, height, 0) - height;
     rect(x, height, x - oldX, h);
-    oldX = x;
-    fill(255, 255, 255);
+    fill(0, 0, 255);
     if (Math.log(i) % (Math.log(2)) === 0) {
       var freq = Math.round(i * 24000 / freqDom.length);
       textAlign(CENTER);
-      text(freq.toString() + " Hz", x + (x - oldX) / 2, h + height - 20);
+      text(freq.toString() + " Hz", (x + (x - oldX) / 2), h + height - 20);
     }
+    oldX = x;
   }
 }
 
@@ -117,20 +118,31 @@ $(".scale").on("click", function() {
     $(".scale").toggleClass("active");
   }
 
-  if (this.innerHTML === "Linear Frequency") {
+  if (this.innerHTML === "Linear Scale") {
     linear = true;
-  } else if (this.innerHTML === "Log Frequency") {
+  } else if (this.innerHTML === "Log Scale") {
     linear = false;
   }
+});
+
+//Button to play 440 Hz tone
+$(".tone").on("click", function() {
+  $(this).toggleClass("btn-danger");
+
+  if ($(this).hasClass("btn-danger")) {
+    osc[this.innerHTML / 440 - 1].start();
+  } else { osc[this.innerHTML / 440 - 1].stop(); }
 });
 
 //Button to record microphone input
 $(".record").on("click", function() {
   if (mic.enabled) {
     $(this).toggleClass("btn-danger");
+
     if ($(this).hasClass("btn-danger")) {
       recording = true;
       soundFile.stop();
+      rec.setInput(mic);
       rec.record(soundFile);
       if ($(".reverse").hasClass("btn-danger")) {
         soundFile.reverseBuffer();
@@ -155,44 +167,44 @@ $(".main-btns").on("click", function() {
   $(this).addClass("active");
 
   if ($(this).hasClass("play-pause") && !recording) {
+
     if ($(this).hasClass("paused")) {
       soundFile.pause();
+      mic.connect(fft);
       $(this).html("<span class=iconicstroke-play></span> Play");
       ellapsedTrackTime = millis() / 1000 - trackStartTime;
     } else {
       soundFile.play();
+      mic.disconnect(fft);
       $(this).html("<span class=iconicstroke-pause></span> Pause");
       trackDuration = soundFile.duration() / rate + millis() / 1000;
       trackStartTime = millis() / 1000;
     }
+
     $(this).toggleClass("paused");
   } else if ($(this).hasClass("stop") && !recording) {
-    soundFile.stop();
-    ellapsedTrackTime = 0;
-    $(".main-btns").removeClass("active");
-    $(".play-pause").removeClass("paused");
-    $(".play-pause").html("<span class=iconicstroke-play></span> Play");
+    playbackStopped();
   }
 });
 
 //Buttons to control reverb.
 // Connect if going from 0 to 1, disconnect if going from 1 to 0
 $(".rev").on("click", function() {
-  rev = parseInt($(".rev-value").html()) * 2;
-  if (this.value === "up" && rev < 10) {
-    rev+= 2;
-    if (rev === 10) {
+  rev = parseInt($(".rev-value").html());
+  if (this.value === "up" && rev < 3) {
+    rev+= 1;
+    if (rev === 1) {
       reverb.connect();
     }
-    reverb.process(soundFile, rev, 0);
+    reverb.process(soundFile, 2 * rev, map(rev, 0, 3, 100, 0));
   } else if (this.value === "down" && rev > 0) {
-    rev-= 2;
+    rev-= 1;
     if (rev === 0) {
       reverb.disconnect();
     }
-    reverb.process(soundFile, rev, 0);
+    reverb.process(soundFile, 2 * rev, map(rev, 0, 3, 100, 0));
   }
-  $(".rev-value").html(rev / 2);
+  $(".rev-value").html(rev);
 });
 
 //Buttons to control playback rate
@@ -208,7 +220,6 @@ $(".rate").on("click", function() {
   soundFile.rate(rate);
   if ($(".reverse").hasClass("btn-danger")) {
     soundFile.reverseBuffer();
-    console.log("rev w/ rate");
   }
 });
 
@@ -216,7 +227,6 @@ $(".rate").on("click", function() {
 $(".reverse").on("click", function() {
   $(this).toggleClass("btn-danger");
   soundFile.reverseBuffer();
-  console.log("rev w/ button");
 });
 
 //Button to save file
@@ -224,19 +234,18 @@ $(".save").on("click", function() {
   saveSound(soundFile, "MyFile.wav");
 });
 
-//Toggle indicators to show state of program
-function showState() {
-  if (soundFile.isPlaying() && (trackDuration - ellapsedTrackTime) - millis() / 1000 <= 0) {
-    soundFile.stop();
-    ellapsedTrackTime = 0;
-    $(".main-btns").removeClass("active");
-    $(".play-pause").removeClass("paused");
-    $(".play-pause").html("<span class=iconicstroke-play></span> Play");
-    console.log("stopped without button");
-  }
+//Handle when playback is stopped
+function playbackStopped() {
+  soundFile.stop();
+  mic.connect(fft);
+  ellapsedTrackTime = 0;
+  $(".main-btns").removeClass("active");
+  $(".play-pause").removeClass("paused");
+  $(".play-pause").html("<span class=iconicstroke-play></span> Play");
 }
 
-//FOR DEBUGGING
-// function mouseClicked() {
-//   console.log(ellapsedTrackTime);
-// }
+//Toggle active part of page
+$(".nav-list").on("click", function() {
+  $(".nav-list").removeClass("active");
+  $(this).addClass("active");
+});

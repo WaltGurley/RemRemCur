@@ -4,33 +4,89 @@
 }
 
 body {
-  background-color: #222;
+  font-family: 'Roboto', sans-serif;
 }
 
 canvas{
-  border-left-style: solid;
-  border-right-style: solid;
-  border-bottom-style: solid;
+  border-style: solid;
   border-width: 2px;
   border-color: #f8f8f8;
 }
 
-.start-of-page{
+.btn {
+  border: 0 none;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-radius: 0;
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus {
+    outline: 0 none;
+}
+
+.start-of-page {
   margin-top: 50px;
 }
 
-.start-of-page h4 {
+#app-container {
+  background-color: #222;
+  padding: 15px 0 16px 0;
+}
+
+.app-text {
   color: #fff;
+}
+
+.btn-col {
+  margin-top: 15px;
 }
 
 .wide-btn {
   width: 125px;
 }
 
-.btn:focus {
-  outline: none;
+.play-pause {
+  margin-bottom: 4px;
 }
 
-.main-btns:focus {
-  background-color: #fff;
+.center-with-button {
+  height: 43px;
+}
+
+.header-center {
+  margin: 0;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#sound-info {
+  height: calc(100vh - 50px);
+}
+
+.sound-info-title {
+  border-bottom: solid 1px;
+}
+
+.big-p {
+  font-size: 15px;
+}
+
+.custom-carousel-control {
+  font-size: 24px;
+  color: #000;
+}
+
+.custom-carousel-control:hover {
+  text-decoration: none;
+  color: #BA009E;
+}
+
+.custom-carousel-control:focus {
+  text-decoration: none;
+  color: #BA009E;
+}
+
+.img-caption {
+  margin-top: 15px;
 }
