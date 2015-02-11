@@ -149,8 +149,9 @@ $(".record").on("click", function() {
         $(".reverse").removeClass("btn-danger");
       }
       $(this).html("<span class=iconicstroke-mic></span> Stop Rec.");
-      $(".play-pause").removeClass("paused");
-      $(".play-pause").html("<span class=iconicstroke-play></span> Play");
+      $(".play-pause")
+        .removeClass("paused")
+        .html("<span class=iconicstroke-play></span> Play");
     } else {
       recording = false;
       rec.stop();
@@ -163,26 +164,28 @@ $(".record").on("click", function() {
 
 //Buttons to start, stop, or pause playback
 $(".main-btns").on("click", function() {
+  var pressedButton = $(this);
+
   $(".main-btns").removeClass("active");
-  $(this).addClass("active");
+  pressedButton.addClass("active");
 
-  if ($(this).hasClass("play-pause") && !recording) {
+  if (pressedButton.hasClass("play-pause") && !recording) {
 
-    if ($(this).hasClass("paused")) {
+    if (pressedButton.hasClass("paused")) {
       soundFile.pause();
       mic.connect(fft);
-      $(this).html("<span class=iconicstroke-play></span> Play");
+      pressedButton.html("<span class=iconicstroke-play></span> Play");
       ellapsedTrackTime = millis() / 1000 - trackStartTime;
     } else {
       soundFile.play();
       mic.disconnect(fft);
-      $(this).html("<span class=iconicstroke-pause></span> Pause");
+      pressedButton.html("<span class=iconicstroke-pause></span> Pause");
       trackDuration = soundFile.duration() / rate + millis() / 1000;
       trackStartTime = millis() / 1000;
     }
 
-    $(this).toggleClass("paused");
-  } else if ($(this).hasClass("stop") && !recording) {
+    pressedButton.toggleClass("paused");
+  } else if (pressedButton.hasClass("stop") && !recording) {
     playbackStopped();
   }
 });
@@ -240,8 +243,9 @@ function playbackStopped() {
   mic.connect(fft);
   ellapsedTrackTime = 0;
   $(".main-btns").removeClass("active");
-  $(".play-pause").removeClass("paused");
-  $(".play-pause").html("<span class=iconicstroke-play></span> Play");
+  $(".play-pause")
+    .removeClass("paused")
+    .html("<span class=iconicstroke-play></span> Play");
 }
 
 //Toggle active part of page
