@@ -8,14 +8,14 @@ var mic, rec, soundFile,
 var trackDuration, trackStartTime, ellapsedTrackTime = 0;
 
 function windowResized() {
-  resizeCanvas(getElement('vis-container').width - 30, windowHeight - 120);
+  resizeCanvas(select('#vis-container').width - 30, windowHeight - 120);
 }
 
 function setup() {
-  var container = getElement('vis-container'),
+  var container = select('#vis-container'),
   canvas = createCanvas(container.width - 30, windowHeight - 120);
 
-  canvas.parent('vis-container');
+  canvas.parent('#vis-container');
   background(0, 0, 0);
 
   mic = new p5.AudioIn();

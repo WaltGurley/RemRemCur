@@ -2,7 +2,7 @@ var osc = [],
   note = [];
 
 function setup() {
-  var container = getElement('vis-container'),
+  var container = select('#vis-container'),
   canvas = createCanvas(container.width - 30, windowHeight - 100);
 
   canvas.parent('vis-container');
@@ -14,7 +14,7 @@ function draw() {
 }
 
 function windowResized() {
-  resizeCanvas(getElement('vis-container').width - 30, windowHeight - 100);
+  resizeCanvas(select('#vis-container').width - 30, windowHeight - 100);
 }
 
 function mousePressed() {
