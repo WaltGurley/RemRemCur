@@ -52,7 +52,7 @@ function touchMoved() {
     note[i].playNote(touches[i].x, touches[i].y, i, false);
   }
 
-   console.log("touch moved!", touches.length);
+   console.log("touch moved!", touches.length, touchNum);
 
   // prevent default
   return false;
