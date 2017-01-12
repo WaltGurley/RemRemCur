@@ -1,5 +1,6 @@
-var osc = [],
-  note = [];
+var osc = [];
+var note = [];
+var touchNum = 0;
 
 function setup() {
   var container = select('#vis-container'),
@@ -27,7 +28,7 @@ function mousePressed() {
 }
 
 function touchStarted() {
-  var touchNum = touches.length - 1;
+  touchNum = touches.length - 1;
   note[touchNum] = new ellipseNote();
   note[touchNum].drawEllipse(touches[touchNum].x, touches[touchNum].y);
   note[touchNum].playNote(touches[touchNum].x, touches[touchNum].y, touchNum, true);
@@ -66,7 +67,7 @@ function mouseReleased() {
 }
 
 function touchEnded() {
-  for (i = 0; i < touches.length; i++) {
+  for (i = 0; i < touchNum + 1; i++) {
     osc[i].fade(0, 0.25);
     osc[i].stop(0.25);
   }
